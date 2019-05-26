@@ -76,4 +76,61 @@ class TimeExec {
 
 
     
+    public function show($array) : void
+    {
+         $html = '<table> 
+                 <tr>
+                     <th> Line </th>
+                     <th>  Time </th>
+                     <th>  Time since last event </th>
+                     <th>  Pourcent </th>
+                 </tr>';
+
+        $colored = false;
+         foreach ($this->arrayTime as $key => $value) {
+      
+            $html .= '<tr ';
+            $html .= $colored ? "class='colored' >" : ">";
+            $colored = $colored ? false : true;
+            $html .= '<td class="line">'. $this->arrayTime[$key]['line']  .'</td>';
+            $html .= '<td>'. $this->arrayTime[$key]['timeFormat']  .'</td>';
+            $html .= '<td>'.  $this->arrayTime[$key]['sinceLastEvent'] .'</td>';
+            $html .= '<td>'. $this->arrayTime[$key]['pourcent']  .'</td>';
+            $html .='</tr>'; 
+        
+        } 
+
+        echo  $html .'</table> <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">';
+
+   
+      
+
+      echo "<style>  
+      table{
+          border-collapse: collapse;
+      }
+
+      .colored {
+        background-color: rgb(240,240,240);
+      }
+
+      td, th{   
+          border: 1.5px solid black;
+          padding: 12px;
+          font-family: 'Karla', sans-serif;
+      } 
+
+      th {
+          background-color: rgb(165, 165, 165);
+      }
+
+      .line {
+       font-weight: 600; 
+      }
+      
+      </style>";
+    }
+
+
+    
 }
