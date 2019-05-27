@@ -3,49 +3,49 @@
 
 class TimeExec {
 
-    public $arrayTime = [];
-    public $time;
+    public static $arrayTime = [];
+    public static $time;
 
 
-    public function start() : void
+    public static function start() : void
     {
-        $this->time = microtime(true);
+        self::$time = microtime(true);
     }
 
-    public function event($line = null) : void
+    public static function event($line = null) : void
     {
         $event = [
             'microSecond' => microtime(true),
             'line' => $line
         ];
-        array_push( $this->arrayTime, $event  );         
+        array_push( self::$arrayTime, $event  );         
     }
 
-    public function stop($line = null) : array
+    public static function stop($line = null) : array
     {
-        $this->event($line);
-        $max = ($this->arrayTime[count($this->arrayTime) - 1]['microSecond']  - $this->time )/100;
+        self::event($line);
+        $max = (self::$arrayTime[count(self::$arrayTime) - 1]['microSecond']  - self::$time )/100;
 
-        foreach ($this->arrayTime as $key => $value) {
-            $this->arrayTime[$key]['microSecond'] = $this->arrayTime[$key]['microSecond'] - $this->time;
-            $this->arrayTime[$key]['microSecondSinceLastEvent'] = $key ?  $this->arrayTime[$key]['microSecond'] - $this->arrayTime[$key - 1]['microSecond'] : $this->arrayTime[$key]['microSecond']; 
-            $this->arrayTime[$key]['timeFormat'] =  $this->convertTime($this->arrayTime[$key]['microSecond']);
-            $this->arrayTime[$key]['sinceLastEvent'] = $this->convertTime(  $this->arrayTime[$key]['microSecondSinceLastEvent'] ); 
-            $this->arrayTime[$key]['pourcent'] = $this->convertPourcent($this->arrayTime[$key]['microSecondSinceLastEvent'] / $max) ;
+        foreach (self::$arrayTime as $key => $value) {
+            self::$arrayTime[$key]['microSecond'] = self::$arrayTime[$key]['microSecond'] - self::$time;
+            self::$arrayTime[$key]['microSecondSinceLastEvent'] = $key ?  self::$arrayTime[$key]['microSecond'] - self::$arrayTime[$key - 1]['microSecond'] : self::$arrayTime[$key]['microSecond']; 
+            self::$arrayTime[$key]['timeFormat'] =  self::convertTime(self::$arrayTime[$key]['microSecond']);
+            self::$arrayTime[$key]['sinceLastEvent'] = self::convertTime(  self::$arrayTime[$key]['microSecondSinceLastEvent'] ); 
+            self::$arrayTime[$key]['pourcent'] = self::convertPourcent(self::$arrayTime[$key]['microSecondSinceLastEvent'] / $max) ;
         }
        
-        dump($this->arrayTime);
-        return $this->arrayTime;
+        self::show(self::$arrayTime);
+        return self::$arrayTime;
     }
 
-     public function convertTime( $time) : string
+     public static function convertTime( $time) : string
     {
         $time =  number_format($time, 6, '.', '');
         
         if ( $time < 0.0000999){
             $time =  strval( $time * 1000000).'µs';
         } elseif ( $time < 1) {
-            $time = number_format($time * 10000, 2, '.','');
+            $time = number_format($time * 1000, 2, '.','');
             $time = strval($time) .'ms';
         } else {
             $time = number_format($time , 2, '.','');
@@ -56,27 +56,27 @@ class TimeExec {
     }
 
 
-    public function convertPourcent($nb)
+    public  static function convertPourcent($nb)
     {
         return number_format($nb, 2, '.', '').'%';
     }
 
-    public function func( Closure $func) : void
+    public static function func( Closure $func) : void
     {
-        $this->start();
+        self::start();
         $func();
-        $this->stop();
+        self::stop();
     }
 
 
-    public function sleep( $nb) : void 
+    public static function sleep( $nb) : void 
     {
         usleep(1000000 * $nb );
     }
 
 
     
-    public function show($array) : void
+    public static function show($array) : void
     {
          $html = '<table> 
                  <tr>
@@ -87,15 +87,15 @@ class TimeExec {
                  </tr>';
 
         $colored = false;
-         foreach ($this->arrayTime as $key => $value) {
+         foreach (self::$arrayTime as $key => $value) {
       
             $html .= '<tr ';
             $html .= $colored ? "class='colored' >" : ">";
             $colored = $colored ? false : true;
-            $html .= '<td class="line">'. $this->arrayTime[$key]['line']  .'</td>';
-            $html .= '<td>'. $this->arrayTime[$key]['timeFormat']  .'</td>';
-            $html .= '<td>'.  $this->arrayTime[$key]['sinceLastEvent'] .'</td>';
-            $html .= '<td>'. $this->arrayTime[$key]['pourcent']  .'</td>';
+            $html .= '<td class="line">'. self::$arrayTime[$key]['line']  .'</td>';
+            $html .= '<td>'. self::$arrayTime[$key]['timeFormat']  .'</td>';
+            $html .= '<td>'.  self::$arrayTime[$key]['sinceLastEvent'] .'</td>';
+            $html .= '<td>'. self::$arrayTime[$key]['pourcent']  .'</td>';
             $html .='</tr>'; 
         
         } 
