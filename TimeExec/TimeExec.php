@@ -1,5 +1,10 @@
 <?php
 
+ /**
+  * @author Arthur Remond <arthur.remond@protonmail.com>
+  * @license MIT
+  * @version 1.0.0
+  */
 
 class TimeExec {
 
