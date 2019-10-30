@@ -6,6 +6,8 @@
   * @version 1.0.0
   */
 
+ namespace TimeExec;
+
 class TimeExec {
 
     public static $arrayTime = [];

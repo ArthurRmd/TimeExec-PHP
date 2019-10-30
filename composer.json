@@ -1,0 +1,19 @@
+{
+  "name": "arthur-rmd/time-exec",
+  "description": "Quickly test the execution time of a php script",
+  "keywords": ["time execution","microtime"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ArthurRmd",
+      "email": "arthur.remond@protonmail.com"
+    }
+  ],
+  "autoload" : {
+    "psr-4": {
+      "TimeExec\\" : "src//"
+    }
+  },
+  "require": {}
+}
